@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
-    let itemArray = ["Find Timchang", "Give him money", "Repeat the process"]
+    var itemArray = ["Find Timchang", "Give him money", "Repeat the process"]
     
     
     override func viewDidLoad() {
@@ -18,6 +18,7 @@ class TodoListViewController: UITableViewController {
         // Do any additional setup after loading the view.
     }
 
+    //Mark: - Table delegate methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "todoItemCell", for: indexPath)
@@ -45,18 +46,33 @@ class TodoListViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        let alert = UIAlertController(title: "Mark Request as resolved",
-//                                      message: "are you sure your request has been resolved?",
-//                                      preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(action: UIAlertAction!) in
-//
-//            self.markAsResolved(id: rowId)
-//
-//        }))
-//        self.present(alert, animated: true, completion: nil)
-        
     }
+    
+    //Mark: - Add new items button
+    @IBAction func addButtonItems(_ sender: UIBarButtonItem) {
+        
+        var textfield = UITextField()
+        
+        let alert = UIAlertController(title: "Add new To-do list item",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        
+            alert.addTextField { (alertTextfield) in
+                alertTextfield.placeholder = "Create new item"
+                textfield = alertTextfield
+            }
+        
+            alert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: {(action: UIAlertAction!) in
 
+                //what will happen once the user clicks the add button item on alert
+                print(textfield)
+                self.itemArray.append(textfield.text!)
+                
+                self.tableView.reloadData()
+            }))
+        
+            self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 
